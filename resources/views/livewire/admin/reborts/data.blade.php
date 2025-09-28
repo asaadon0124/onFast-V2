@@ -110,7 +110,8 @@
                                         placeholder="بحث">
 
 
-                                    <a class="btn btn-success" wire:navigate href="{{ route('reborts.print') }}">
+                                        {{ $status_id }}
+                                    <a class="btn btn-success" wire:navigate href="{{ route('reborts.print',['status_id' => $status_id ?? 1]) }}">
                                         🖨️ طباعة التقرير
                                     </a>
 

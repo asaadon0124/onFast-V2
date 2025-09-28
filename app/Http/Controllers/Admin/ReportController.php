@@ -13,8 +13,8 @@ class ReportController extends Controller
     }
 
 
-    public function print()
+    public function print($status_id)
     {
-        return view('admins.Reborts.print');
-    }   
+        return view('admins.Reborts.print',compact('status_id'));
+    }
 }

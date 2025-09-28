@@ -43,7 +43,7 @@ public function getNewProducts($search = null, $filters = [])
 
     return
     [
-        'newProducts'   => $newProducts->latest()->paginate(1),
+        'newProducts'   => $newProducts->latest()->paginate(5),
         'total_prices'  => $newProducts->sum('product_price'),
     ];
 }
@@ -130,7 +130,7 @@ public function getNewProducts($search = null, $filters = [])
 
 
 
-    
+
 
 
 

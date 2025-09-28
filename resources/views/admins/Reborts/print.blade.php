@@ -25,10 +25,8 @@
     <!-- Main content -->
     <section class="content">
 
-        @livewire('admin.reborts.print-rebort')
-
-
-
+        {{-- @livewire('admin.reborts.print-rebort') --}}
+        <livewire:admin.reborts.print-rebort :status_id="$status_id" />
 
 
     </section>

@@ -44,9 +44,9 @@ class Data extends Component
     {
 
         $this->data_filter =
-        [  'supplier_id' => $this->supplier_id,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
+        [  'supplier_id'    => $this->supplier_id,
+            'start_date'    => $this->start_date,
+            'end_date'      => $this->end_date,
         ];
 
         // $rebortService->filterNewProducts(Product::query(), $this->data_filter);
