@@ -214,7 +214,7 @@
 
 
                    {{--  التقارير REBORTS --}}
-                  <li class="nav-item has-treeview">
+                  <li class="nav-item has-treeview @if (Request::segment(2) == 'reborts') menu-open @endif">
                       <a href="#" class="nav-link @if (Request::segment(2) == 'reborts') active @endif">
                           <i class="nav-icon fas fa-table"></i>
                           <p>
@@ -224,15 +224,23 @@
                       </a>
                       <ul class="nav nav-treeview">
                           <li class="nav-item">
-                              <a href="{{ route('reborts.index') }}" class="nav-link @if (Request::segment(2) == 'reborts') active @endif">
+                              <a href="{{ route('reborts.index') }}" class="nav-link @if (Request::segment(2) == 'reborts' &&  Request::segment(3) == '') active @endif">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>كل التقارير </p>
+                                  <p>تقارير الموردين </p>
                               </a>
                           </li>
                           <li class="nav-item">
+                              <a href="{{ route('reborts.index_servants') }}" class="nav-link @if (Request::segment(2) == 'reborts' &&  Request::segment(3) == 'servants') active @endif">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p> تقارير المناديب </p>
+                              </a>
+                          </li>
+
+
+                           <li class="nav-item">
                               <a href="pages/tables/data.html" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>كل التقارير 2</p>
+                                  <p> تقارير داخلية </p>
                               </a>
                           </li>
                       </ul>

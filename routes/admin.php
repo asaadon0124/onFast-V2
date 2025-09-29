@@ -46,7 +46,10 @@ use App\Http\Controllers\Admin\GovernorateController;
 
         // REBORTS ROUTES
         Route::get('/reborts', [ReportController::class,'index'])->name('reborts.index');
+        Route::get('/reborts/servants', [ReportController::class,'index_servants'])->name('reborts.index_servants');
         Route::get('/reborts/print/{status_id}', [ReportController::class,'print'])->name('reborts.print');
+        // Route::get('/reborts/export/{status_id}', [ReportController::class, 'export'])->name('reborts.export');
+
 
 
 

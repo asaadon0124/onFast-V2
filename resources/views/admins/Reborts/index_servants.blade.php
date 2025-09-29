@@ -1,10 +1,10 @@
 @extends('admins.layouts.app')
 
-@section('title1', 'تقارير الموردين')
-@section('page_header_main', ' تقارير الموردين')
+@section('title1', 'تقارير المناديب')
+@section('page_header_main', ' تقارير المناديب')
 @section('page_header1', 'الرئيسية')
 @section('page_header1_link', route('admin.dashboard'))
-@section('page_header2', 'تقارير الموردين')
+@section('page_header2', 'تقارير المناديب')
 
 
 @section('css')
@@ -20,8 +20,7 @@
 
     <!-- Main content -->
     <section class="content">
-        @livewire('admin.reborts.data')
-        {{-- @livewire('admin.reborts.print-rebort') --}}
+        @livewire('admin.reborts.data-servant')
 
 
 
@@ -41,7 +40,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- Include Select2 JS -->
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> --}}
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
@@ -167,18 +165,18 @@
     <script>
         document.addEventListener("livewire:initialized", function()
         {
-            $(".select2_supplier").select2().on("change", function()
+            $(".select2_servant").select2().on("change", function()
             {
-                // $wire.set("supplier_id", $(this).val());
+                // $wire.set("servant_id", $(this).val());
                 // alert($(this).val());
 
-                Livewire.find(document.querySelector('[wire\\:id]').getAttribute('wire:id')).set('supplier_id', $(this).val());
+                Livewire.find(document.querySelector('[wire\\:id]').getAttribute('wire:id')).set('servant_id', $(this).val());
             });
 
 
             Livewire.hock("morphed", function(data)
             {
-                $(".select2_supplier").select2();
+                $(".select2_servant").select2();
 
             })
         })

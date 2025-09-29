@@ -7,7 +7,7 @@
                     <div class="card card-primary">
                         <div class="card-header text-right">
                             <div class="card-title" dir="rtl">
-                                البحث بواسطة اسم المورد و تاريخ الشحنات الخاصة به
+                                البحث بواسطة اسم المندوب و تاريخ الشحنات الخاصة به
                             </div>
                         </div>
                         <div class="card-body">
@@ -15,26 +15,27 @@
                                 <div class="modal-body">
                                     <div class="row">
 
-                                        {{-- اسم المورد supplier_id --}}
+                                        {{-- اسم المندوب supplier_id --}}
                                         <div class="col-sm-3 mb-4">
                                             <div class="form-group">
-                                                <label>اسم المورد</label>
+                                                <label>اسم المندوب</label>
                                                 <div wire:ignore>
-                                                    <select class="form-control select2_supplier"
+                                                    <select class="form-control select2_servant"
                                                         id="supplier_id_select2">
-                                                        <option value="">اختر المورد</option>
-                                                        @if (isset($suppliers))
-                                                            @foreach ($suppliers as $supplier)
-                                                                <option value="{{ $supplier->id }}">
-                                                                    {{ $supplier->name }}
+                                                        <option value="">اختر المندوب</option>
+                                                        @if (isset($servants))
+                                                            @foreach ($servants as $servant)
+                                                                <option value="{{ $servant->id }}">
+                                                                    {{ $servant->name }}
                                                                 </option>
                                                             @endforeach
                                                         @endif
                                                     </select>
                                                 </div>
 
-                                                @include('admins.alerts.error', [
-                                                    'property' => 'supplier_id',
+                                                @include('admins.alerts.error',
+                                                [
+                                                    'property' => 'servant_id',
                                                 ])
                                             </div>
                                         </div>
@@ -91,8 +92,8 @@
                         <div class="card-body">
                             <div>
                                 <div class="btn-group w-100 mb-3">
-                                    <button class="btn btn-info {{ $status_id == 1 ? 'active' : '' }}"
-                                        wire:click="setStatus(1)">داخل الشركة</button>
+                                    {{-- <button class="btn btn-info {{ $status_id == 1 ? 'active' : '' }}"
+                                        wire:click="setStatus(1)">داخل الشركة</button> --}}
                                     <button class="btn btn-info {{ $status_id == 2 ? 'active' : '' }}"
                                         wire:click="setStatus(2)">خرج للشحن</button>
                                     <button class="btn btn-info {{ $status_id == 3 ? 'active' : '' }}"
@@ -113,7 +114,7 @@
 
                                     {{ $status_id }}
                                     <a class="btn btn-primary" wire:navigate
-                                        href="{{ route('reborts.print', ['status_id' => $status_id ?? 1]) }}">
+                                        href="{{ route('reborts.print', ['status_id' => $status_id ?? 2]) }}">
                                         🖨️ طباعة التقرير
                                     </a>
 
@@ -136,7 +137,8 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>رقم الشحنة</th>
-                                                    <th>بيانات المورد</th>
+                                                    <th>بيانات المندوب</th>
+                                                    <th>بيانات العميل</th>
                                                     <th>بيانات المستلم</th>
                                                     <th>العنوان</th>
                                                     <th>سعر الشحنة</th>
@@ -156,6 +158,10 @@
                                                             <td>
                                                                 {!! DNS1D::getBarcodeHTML($item->product->tracking_number, 'C128', 1, 30) !!}
                                                                 <div>{{ $item->product->tracking_number }}</div>
+                                                            </td>
+                                                            <td>
+                                                                {{ $item->order->servant->name ?? '-' }} <br>
+                                                                {{ $item->order->servant->phone ?? '-' }}
                                                             </td>
                                                             <td>
                                                                 {{ $item->product->supplier->name ?? '-' }} <br>

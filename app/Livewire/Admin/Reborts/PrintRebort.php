@@ -28,6 +28,7 @@ class PrintRebort extends Component
 
     public function printReport()
     {
+        // dd($this->data_filter);
         $this->dispatch('printWindow');
 
     }

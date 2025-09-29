@@ -12,6 +12,11 @@ class ReportController extends Controller
         return view('admins.Reborts.index');
     }
 
+    public function index_servants()
+    {
+        return view('admins.Reborts.index_servants');
+    }
+
 
     public function print($status_id)
     {

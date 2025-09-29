@@ -5,7 +5,9 @@ namespace App\Livewire\Admin\Reborts;
 use App\Models\Product;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Services\Admin\RebortService;
+use App\Exports\SuppliersRebortExport;
 
 class Data extends Component
 {
@@ -40,7 +42,7 @@ class Data extends Component
     }
 
 
-    public function submit(RebortService $rebortService)
+    public function submit()
     {
 
         $this->data_filter =
@@ -50,6 +52,15 @@ class Data extends Component
         ];
 
         // $rebortService->filterNewProducts(Product::query(), $this->data_filter);
+    }
+
+
+    public function export(RebortService $rebortService)
+    {
+        return Excel::download(
+            new SuppliersRebortExport($rebortService, $this->status_id, $this->data_filter),
+            'report_' . now()->format('Y_m_d') . '.xlsx'
+        );
     }
 
 
