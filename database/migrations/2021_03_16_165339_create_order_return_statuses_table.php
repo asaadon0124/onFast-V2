@@ -8,28 +8,24 @@ class CreateOrderReturnStatusesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('order_return_statuses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('order_detailes_id')->unsigned()->nullable();
-            $table->integer('returns_id')->unsigned()->nullable();
-            $table->integer('status_id')->unsigned();
-            $table->string('package_number');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('order_return_statuses', function (Blueprint $blueprint): void {
+            $blueprint->increments('id');
+            $blueprint->integer('order_detailes_id')->unsigned()->nullable();
+            $blueprint->integer('returns_id')->unsigned()->nullable();
+            $blueprint->integer('status_id')->unsigned();
+            $blueprint->string('package_number');
+            $blueprint->timestamps();
+            $blueprint->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('order_return_statuses');
     }

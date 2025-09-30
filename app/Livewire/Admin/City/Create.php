@@ -22,14 +22,14 @@ class Create extends Component
     protected $listeners = ['cityCreate'];
 
 
-    public function cityCreate()
+    public function cityCreate(): void
     {
         $this->governorates = Cache::get('governorates_all');
         $this->dispatch('createModalToggle');
     }
 
 
-    public function submit(CityService $cityService,ActionHistoryService $action_history)
+    public function submit(CityService $cityService,ActionHistoryService $actionHistoryService): void
     {
         $validated = $this->validate((new CityRequest())->rules(), (new CityRequest())->messages());
 
@@ -38,7 +38,7 @@ class Create extends Component
             DB::beginTransaction();
                 $city = $cityService->create($validated);   // 1 - CREATE NEW CITY
                 refreshCitiesCache();   // 2 - Update Cities Cache
-                $action_history->action('اضافة مدينة جديدة','انشاء مدينة جديدة {$city->name}','City', $city->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
+                $actionHistoryService->action('اضافة مدينة جديدة','انشاء مدينة جديدة {$city->name}','City', $city->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
             DB::commit();
 
        } catch (\Throwable $e)

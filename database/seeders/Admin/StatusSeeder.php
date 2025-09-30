@@ -10,7 +10,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class StatusSeeder extends Seeder
 {
 
-     public function run()
+     public function run(): void
     {
         $statuses = [
             ['name' => 'داخل الشركة'],

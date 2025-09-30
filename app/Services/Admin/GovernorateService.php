@@ -17,10 +17,7 @@ class GovernorateService implements GovernorateInterface
 
         if ($search)
         {
-            $governorates = $governorates->filter(function ($governorate) use ($search)
-            {
-                return str_contains(strtolower($governorate->name), strtolower($search));
-            });
+            $governorates = $governorates->filter(fn($governorate): bool => str_contains(strtolower((string) $governorate->name), strtolower((string) $search)));
         }
 
         return $this->paginate($governorates, PAGINATION_PER_PAGE);
@@ -44,7 +41,7 @@ class GovernorateService implements GovernorateInterface
         return $this->getGovernoratesFromCache()->firstWhere('id', $id) ?? Governorate::findOrFail($id);
     }
 
-    public function update($data, Governorate $governorate)
+    public function update($data, Governorate $governorate): Governorate
     {
         $data['updated_by'] = auth('admin')->id();
         $data['date'] = now()->toDateString();
@@ -68,10 +65,7 @@ class GovernorateService implements GovernorateInterface
 
     private function getGovernoratesFromCache()
     {
-        return Cache::rememberForever(self::CACHE_KEY, function ()
-        {
-            return Governorate::with('adminCreate')->latest()->get();
-        });
+        return Cache::rememberForever(self::CACHE_KEY, fn() => Governorate::with('adminCreate')->latest()->get());
     }
 
     private function recacheGovernorates()
@@ -80,16 +74,15 @@ class GovernorateService implements GovernorateInterface
         return $this->getGovernoratesFromCache();
     }
 
-    private function paginate($items, $perPage)
+    private function paginate($items, int $perPage): \Illuminate\Pagination\LengthAwarePaginator
     {
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $currentItems = $items->slice(($currentPage - 1) * $perPage, $perPage)->values();
-        $paginator = new LengthAwarePaginator($currentItems, $items->count(), $perPage, $currentPage,
+
+        return new LengthAwarePaginator($currentItems, $items->count(), $perPage, $currentPage,
         [
             'path' => LengthAwarePaginator::resolveCurrentPath(),
             'pageName' => 'page',
         ]);
-
-        return $paginator;
     }
 }

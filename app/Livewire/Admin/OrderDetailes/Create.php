@@ -40,7 +40,7 @@ class Create extends Component
     protected $listeners = ['orderDetailesCreate'];
 
 
-    public function orderDetailesCreate($id)
+    public function orderDetailesCreate($id): void
     {
         $this->order_id = $id; // Capture the Order ID from the parent component
         $this->products = Product::where('status_id', '1')->get();
@@ -48,7 +48,7 @@ class Create extends Component
     }
 
 
-    public function updatedProductId($id)
+    public function updatedProductId($id): void
     {
         if ($id)
         {
@@ -57,7 +57,6 @@ class Create extends Component
             $this->shipping_price   = $this->selectedProduct->shipping_price;
             $this->total_price      = $this->selectedProduct->total_price;
             $this->product_status   = 2;
-            $this->coming_from      = 1;
             $this->coming_from      = $this->selectedProduct->status_id;
         } else
         {
@@ -66,7 +65,7 @@ class Create extends Component
     }
 
 
-     public function submit(OrderDetailesService $orderDetailesService,ActionHistoryService $action_history)
+     public function submit(OrderDetailesService $orderDetailesService,ActionHistoryService $actionHistoryService): void
     {
         // dd($this->all());
         $validated = $this->validate((new OrderDetailesRequest())->rules(), (new OrderDetailesRequest())->messages());
@@ -76,7 +75,7 @@ class Create extends Component
             DB::beginTransaction();
                 $product = $orderDetailesService->create($validated,$this->order_id,$this->selectedProduct);   // 1 - CREATE NEW PRODUCT
                 // refreshCitiesCache();   // 2 - Update Cities Cache
-                $action_history->action('اضافة شحنة جديدة الي خط السير',"انشاء شحنة جديدة الي خط السير {$product->product->tracking_number}",'OrderDetailes', $product->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
+                $actionHistoryService->action('اضافة شحنة جديدة الي خط السير',"انشاء شحنة جديدة الي خط السير {$product->product->tracking_number}",'OrderDetailes', $product->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
             DB::commit();
 
        } catch (\Throwable $e)

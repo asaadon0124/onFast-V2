@@ -15,7 +15,7 @@ class Data extends Component
     public $search;
     protected $paginationTheme = 'bootstrap';
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
@@ -23,6 +23,6 @@ class Data extends Component
     public function render(GovernorateService $GovernorateService)
     {
         $data = $GovernorateService->index($this->search);
-        return view('livewire.admin.governorate.data', compact('data'));
+        return view('livewire.admin.governorate.data', ['data' => $data]);
     }
 }

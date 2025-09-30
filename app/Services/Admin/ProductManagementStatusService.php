@@ -21,7 +21,7 @@ class ProductManagementStatusService implements ProductManagementStatusInterface
 
 
 
-    public function changeStatus($data, OrderDetailes $orderDetailes)
+    public function changeStatus($data, OrderDetailes $orderDetailes): OrderDetailes
     {
 
         $oldStatus = $orderDetailes->product_status; // الحالة القديمة

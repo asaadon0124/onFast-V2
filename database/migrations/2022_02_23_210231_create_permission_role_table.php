@@ -8,25 +8,21 @@ class CreatePermissionRoleTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('permission_role', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('permission_id')->constrained();
-            $table->foreignId('role_id')->constrained();
-            $table->timestamps();   
+        Schema::create('permission_role', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->foreignId('permission_id')->constrained();
+            $blueprint->foreignId('role_id')->constrained();
+            $blueprint->timestamps();   
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('permission_role');
     }

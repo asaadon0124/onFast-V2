@@ -13,12 +13,12 @@ use App\Http\Controllers\Admin\ServantController;
 use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\GovernorateController;
 
-    Route::middleware('guest:admin')->group(function ()
+    Route::middleware('guest:admin')->group(function (): void
     {
         Route::get('/login', [AuthController::class, 'login'])->name('admin.login');
     });
 
-    Route::middleware(RedirectIfNotAuth::class)->group(function ()
+    Route::middleware(RedirectIfNotAuth::class)->group(function (): void
     {
         Route::get('/dashBoard', [AuthController::class,'dashboard'])->name('admin.dashboard');
         Route::get('/logout', [AuthController::class,'logout'])->name('admin.logout');

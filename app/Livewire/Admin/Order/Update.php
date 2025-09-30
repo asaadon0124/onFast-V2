@@ -31,7 +31,7 @@ class Update extends Component
 
 
 
-    public function orderUpdate($id,OrderService $orderService)
+    public function orderUpdate($id,OrderService $orderService): void
     {
         $this->servants = Servant::select('id','name','phone')->get();
         $this->orderService = $orderService;
@@ -51,15 +51,15 @@ class Update extends Component
 
 
 
-    public function submit(ActionHistoryService $action_history,OrderService $orderService)
+    public function submit(ActionHistoryService $actionHistoryService,OrderService $orderService): void
     {
-        $validated = $this->validate((new OrderRequest())->rules($this->orderID), (new OrderRequest())->messages());
+        $validated = $this->validate((new OrderRequest())->rules(), (new OrderRequest())->messages());
         try
         {
             DB::beginTransaction();
                 $orderService->update($validated, app(OrderService::class)->find($this->orderID));
                 refreshCitiesCache();
-                $action_history->action('تعديل خط السير',"تعديل خط السير {$this->tracking_number}",'Order', $this->orderID,auth('admin')->user()->id);
+                $actionHistoryService->action('تعديل خط السير',"تعديل خط السير {$this->tracking_number}",'Order', $this->orderID,auth('admin')->user()->id);
             DB::commit();
 
         } catch (\Throwable $e)

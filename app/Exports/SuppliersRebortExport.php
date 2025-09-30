@@ -14,15 +14,8 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class SuppliersRebortExport implements FromCollection,WithHeadings, WithStyles, WithCustomStartCell, WithEvents
 {
-    protected $filters;
-    protected $status_id;
-    protected $rebortService;
-
-    public function __construct(RebortService $rebortService, $status_id, $filters = [])
+    public function __construct(protected \App\Services\Admin\RebortService $rebortService, protected $status_id, protected $filters = [])
     {
-        $this->rebortService = $rebortService;
-        $this->status_id = $status_id;
-        $this->filters = $filters;
     }
 
 
@@ -32,10 +25,8 @@ class SuppliersRebortExport implements FromCollection,WithHeadings, WithStyles, 
         {
             $data = $this->rebortService->getNewProducts(null, $this->filters);
             return $data['newProducts']->getCollection();
-        } else
-        {
-            return $this->rebortService->getAllOrderDetailes($this->status_id, null, $this->filters);
         }
+        return $this->rebortService->getAllOrderDetailes($this->status_id, null, $this->filters);
     }
 
 
@@ -68,28 +59,28 @@ class SuppliersRebortExport implements FromCollection,WithHeadings, WithStyles, 
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class => function(AfterSheet $event) {
-                $sheet = $event->sheet->getDelegate();
+            AfterSheet::class => function(AfterSheet $afterSheet): void {
+                $worksheet = $afterSheet->sheet->getDelegate();
 
                 // دمج خلايا الهيدر
-                $sheet->mergeCells('A1:E1');
-                $sheet->mergeCells('A2:E2');
-                $sheet->mergeCells('A3:E3');
+                $worksheet->mergeCells('A1:E1');
+                $worksheet->mergeCells('A2:E2');
+                $worksheet->mergeCells('A3:E3');
 
                 // كتابة الهيدر
-                $sheet->setCellValue('A1', '📦 شركة الشحن');
-                $sheet->setCellValue('A2', 'تقرير الشحنات');
-                $sheet->setCellValue('A3', 'تاريخ التقرير: ' . now()->format('Y-m-d'));
+                $worksheet->setCellValue('A1', '📦 شركة الشحن');
+                $worksheet->setCellValue('A2', 'تقرير الشحنات');
+                $worksheet->setCellValue('A3', 'تاريخ التقرير: ' . now()->format('Y-m-d'));
 
                 // تنسيق الهيدر
-                $sheet->getStyle('A1:A3')->applyFromArray([
+                $worksheet->getStyle('A1:A3')->applyFromArray([
                     'font' => ['bold' => true, 'size' => 14],
                     'alignment' => ['horizontal' => 'center'],
                 ]);
 
                 // توسيع الأعمدة تلقائيًا
                 foreach (range('A', 'E') as $col) {
-                    $sheet->getColumnDimension($col)->setAutoSize(true);
+                    $worksheet->getColumnDimension($col)->setAutoSize(true);
                 }
             },
         ];

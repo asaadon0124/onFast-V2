@@ -13,10 +13,10 @@ class OrderService implements OrderInterface
     public function index($search = null)
     {
 
-        return $data = Order::where(function ($query) use ($search) {
+        return $data = Order::where(function ($query) use ($search): void {
             $query->where('tracking_number', 'like', '%' . $search . '%')
 
-                ->orWhereHas('servant', function ($q) use ($search) {
+                ->orWhereHas('servant', function ($q) use ($search): void {
                     $q->where('name', 'like', '%' . $search . '%')
                         ->orWhere('phone', 'like', '%' . $search . '%');
                 });
@@ -28,8 +28,7 @@ class OrderService implements OrderInterface
 
     public function create($data)
     {
-        $order = Order::create($data);
-        return $order; // دلوقتي كل القيم متخزنة وموجودة
+        return Order::create($data); // دلوقتي كل القيم متخزنة وموجودة
     }
 
 
@@ -42,7 +41,7 @@ class OrderService implements OrderInterface
 
 
 
-    public function update($data, Order $order)
+    public function update($data, Order $order): Order
     {
         $order->update($data);
         return $order;
@@ -52,12 +51,12 @@ class OrderService implements OrderInterface
    
 
 
-    public function show(Order $order, $search = null)
+    public function show(Order $order, $search = null): array
     {
-        $query = OrderDetailes::query()
+        $builder = OrderDetailes::query()
             ->where('order_id', $order->id)
             ->with([
-                 'product' => function ($q) {
+                 'product' => function ($q): void {
             $q->with(['governorate', 'city', 'supplier']);
         },
         'status',
@@ -67,7 +66,7 @@ class OrderService implements OrderInterface
 
         if ($search)
         {
-            $query->whereHas('product', function ($q) use ($search)
+            $builder->whereHas('product', function ($q) use ($search): void
             {
                 $q->where('resever_name', 'like', "%{$search}%")
                 ->orWhere('resver_phone', 'like', "%{$search}%")
@@ -75,11 +74,11 @@ class OrderService implements OrderInterface
             });
         }
 
-        $data = $query->latest()->paginate(PAGINATION_PER_PAGE);
+        $lengthAwarePaginator = $builder->latest()->paginate(PAGINATION_PER_PAGE);
 
         return [
             'order' => $order->load(['servant', 'adminCreate']), // eager load order relations
-            'data'  => $data,
+            'data'  => $lengthAwarePaginator,
         ];
     }
 

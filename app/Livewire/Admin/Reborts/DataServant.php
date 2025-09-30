@@ -25,14 +25,14 @@ class DataServant extends Component
     protected $listeners        = ['refreshData' => '$refresh'];
 
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
-        $this->search = trim($this->search); // هنا برجع القيمة مظبوطة
+        $this->search = trim((string) $this->search); // هنا برجع القيمة مظبوطة
         $this->resetPage();
     }
 
 
-    public function setStatus($statusId)
+    public function setStatus($statusId): void
     {
         $this->status_id = $statusId;
         $this->resetPage();
@@ -41,7 +41,7 @@ class DataServant extends Component
 
 
 
-     public function submit()
+     public function submit(): void
     {
 
         $this->data_filter =
@@ -67,9 +67,9 @@ class DataServant extends Component
     {
         $servants           = $rebortServantService->getServants();
         $get_order_detailes = $rebortServantService->getAllOrderDetailes($this->status_id, $this->search, $this->data_filter);
-        $newProducts        = collect(); // فاضي برضو
+        collect(); // فاضي برضو
 
 
-        return view('livewire.admin.reborts.data-servant',compact('servants','get_order_detailes'));
+        return view('livewire.admin.reborts.data-servant',['servants' => $servants, 'get_order_detailes' => $get_order_detailes]);
     }
 }

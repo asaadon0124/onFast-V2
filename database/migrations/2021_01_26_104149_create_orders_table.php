@@ -6,28 +6,28 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateOrdersTable extends Migration {
 
-	public function up()
+	public function up(): void
 	{
-		Schema::create('orders', function(Blueprint $table) {
-			$table->increments('id');
-            $table->timestamps();
-			$table->integer('servant_id')->unsigned();
-            $table->enum('status',['active','un_active'])->default('active');
-			$table->boolean('coming_from')->default(0);
-			$table->integer('total_prices')->unsigned()->default('0');
-			$table->integer('total_servant_profit')->unsigned()->default('0');
-			$table->integer('total_profit')->unsigned()->default('0');
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
-            $table->string('tracking_number',100);
-            $table->date('date')->nullable();
-			$table->text('notes')->nullable();
-			$table->softDeletes();
+		Schema::create('orders', function(Blueprint $blueprint): void {
+			$blueprint->increments('id');
+            $blueprint->timestamps();
+			$blueprint->integer('servant_id')->unsigned();
+            $blueprint->enum('status',['active','un_active'])->default('active');
+			$blueprint->boolean('coming_from')->default(0);
+			$blueprint->integer('total_prices')->unsigned()->default('0');
+			$blueprint->integer('total_servant_profit')->unsigned()->default('0');
+			$blueprint->integer('total_profit')->unsigned()->default('0');
+            $blueprint->unsignedBigInteger('created_by');
+            $blueprint->unsignedBigInteger('updated_by');
+            $blueprint->string('tracking_number',100);
+            $blueprint->date('date')->nullable();
+			$blueprint->text('notes')->nullable();
+			$blueprint->softDeletes();
 
 		});
 	}
 
-	public function down()
+	public function down(): void
 	{
 		Schema::drop('orders');
 	}

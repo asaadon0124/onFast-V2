@@ -30,7 +30,7 @@ class Update extends Component
 
 
 
-    public function cityUpdate($id,CityService $cityService)
+    public function cityUpdate($id,CityService $cityService): void
     {
         $this->cityService = $cityService;
         $this->cityID = $id;
@@ -45,7 +45,7 @@ class Update extends Component
 
 
 
-    public function submit(ActionHistoryService $action_history,CityService $cityService)
+    public function submit(ActionHistoryService $actionHistoryService,CityService $cityService): void
     {
         $validated = $this->validate((new CityRequest())->rules($this->cityID), (new CityRequest())->messages());
         try
@@ -53,10 +53,10 @@ class Update extends Component
             DB::beginTransaction();
                 $cityService->update($validated, app(CityService::class)->find($this->cityID));
                 refreshCitiesCache();
-                $action_history->action('تعديل مدينة',"تعديل مدينة {$this->name}",'City', $this->cityID,auth('admin')->user()->id);
+                $actionHistoryService->action('تعديل مدينة',"تعديل مدينة {$this->name}",'City', $this->cityID,auth('admin')->user()->id);
             DB::commit();
 
-        } catch (\Throwable $e)
+        } catch (\Throwable)
         {
             DB::rollBack();
             $this->dispatch('citiesErrorMS'); // Flash Message خطأ

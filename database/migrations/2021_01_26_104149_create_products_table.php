@@ -6,33 +6,33 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateProductsTable extends Migration {
 
-	public function up()
+	public function up(): void
 	{
-		Schema::create('products', function(Blueprint $table) {
-			$table->increments('id');
-			$table->timestamps();
-			$table->date('rescive_date');
-			$table->string('resever_name', 100);
-            $table->string('resver_phone', 20);
-			$table->string('resver_address', 255);
-			$table->integer('supplier_id')->unsigned();
-			$table->integer('governorate_id')->unsigned();
-			$table->integer('city_id')->unsigned();
-			$table->decimal('product_price', 10, 2);
-            $table->decimal('shipping_price', 10, 2);
-            $table->decimal('total_price', 10, 2);
-			$table->integer('status_id')->unsigned()->default(1);
-			$table->integer('user_id')->unsigned()->nullable();
-			$table->string('tracking_number',100);
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
-            $table->enum('status',['active','un_active'])->default('active');
-            $table->date('date')->nullable();
-			$table->text('notes')->nullable();
+		Schema::create('products', function(Blueprint $blueprint): void {
+			$blueprint->increments('id');
+			$blueprint->timestamps();
+			$blueprint->date('rescive_date');
+			$blueprint->string('resever_name', 100);
+            $blueprint->string('resver_phone', 20);
+			$blueprint->string('resver_address', 255);
+			$blueprint->integer('supplier_id')->unsigned();
+			$blueprint->integer('governorate_id')->unsigned();
+			$blueprint->integer('city_id')->unsigned();
+			$blueprint->decimal('product_price', 10, 2);
+            $blueprint->decimal('shipping_price', 10, 2);
+            $blueprint->decimal('total_price', 10, 2);
+			$blueprint->integer('status_id')->unsigned()->default(1);
+			$blueprint->integer('user_id')->unsigned()->nullable();
+			$blueprint->string('tracking_number',100);
+            $blueprint->unsignedBigInteger('created_by');
+            $blueprint->unsignedBigInteger('updated_by');
+            $blueprint->enum('status',['active','un_active'])->default('active');
+            $blueprint->date('date')->nullable();
+			$blueprint->text('notes')->nullable();
 		});
 	}
 
-	public function down()
+	public function down(): void
 	{
 		Schema::drop('products');
 	}

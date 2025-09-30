@@ -29,20 +29,20 @@ class Data extends Component
     protected $listeners = ['refreshData' => '$refresh'];
 
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
-        $this->search = trim($this->search); // هنا برجع القيمة مظبوطة
+        $this->search = trim((string) $this->search); // هنا برجع القيمة مظبوطة
         $this->resetPage();
     }
 
-    public function setStatus($statusId)
+    public function setStatus($statusId): void
     {
         $this->status_id = $statusId;
         $this->resetPage();
     }
 
 
-    public function submit()
+    public function submit(): void
     {
 
         $this->data_filter =
@@ -83,6 +83,6 @@ class Data extends Component
             $get_order_detailes = $rebortService->getAllOrderDetailes($this->status_id, $this->search, $this->data_filter);
             $newProducts        = collect(); // فاضي برضو
         }
-        return view('livewire.admin.reborts.data',compact('suppliers','newProducts','get_order_detailes'));
+        return view('livewire.admin.reborts.data',['suppliers' => $suppliers, 'newProducts' => $newProducts, 'get_order_detailes' => $get_order_detailes]);
     }
 }

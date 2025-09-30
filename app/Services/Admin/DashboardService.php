@@ -17,34 +17,34 @@ class DashboardService implements DashboardInterface
 
      public function getOrderDetailes($search = null)
     {
-        $query = Product::with(['supplier', 'governorate', 'city', 'statusRelation', 'adminCreate'])
+        $builder = Product::with(['supplier', 'governorate', 'city', 'statusRelation', 'adminCreate'])
             ->latest()
             ->whereHas('orderDetailes')
             ->where('status_id','<>', 1);
 
-        $search = trim($search); // هنا بقص أي مسافات زيادة
+        $search = trim((string) $search); // هنا بقص أي مسافات زيادة
 
         if ($search !== '') {
-            $query->where(function ($q) use ($search) {
+            $builder->where(function ($q) use ($search): void {
                 $q->where('resever_name', 'like', '%' . $search . '%')
                     ->orWhere('resver_phone', 'like', '%' . $search . '%')
                     ->orWhere('tracking_number', 'like', '%' . $search . '%')
                     ->orWhere('resver_address', 'like', '%' . $search . '%')
-                    ->orWhereHas('supplier', function ($subQ) use ($search) {
+                    ->orWhereHas('supplier', function ($subQ) use ($search): void {
                         $subQ->where('name', 'like', '%' . $search . '%')
                             ->orWhere('phone', 'like', '%' . $search . '%');
                     });
             });
         }
 
-        return $query->paginate(2);
+        return $builder->paginate(2);
     }
 
 
 
 public function getProductsWithDetails($search = null)
 {
-    $query = Product::with([
+    $builder = Product::with([
         'supplier',
         'governorate',
         'city',
@@ -54,30 +54,30 @@ public function getProductsWithDetails($search = null)
         'statusRelation'
     ])
         ->latest()
-        ->where(function ($q) {
+        ->where(function ($q): void {
             $q->where('status_id', 1) // منتجات جديدة
-              ->orWhere(function ($subQ) {
+              ->orWhere(function ($subQ): void {
                   $subQ->where('status_id', '<>', 1) // مش جديدة
                        ->whereHas('orderDetailes'); // بس لو ليها تفاصيل
               });
         });
 
-    $search = trim($search);
+    $search = trim((string) $search);
 
     if ($search !== '') {
-        $query->where(function ($q) use ($search) {
+        $builder->where(function ($q) use ($search): void {
             $q->where('resever_name', 'like', '%' . $search . '%')
                 ->orWhere('resver_phone', 'like', '%' . $search . '%')
                 ->orWhere('tracking_number', 'like', '%' . $search . '%')
                 ->orWhere('resver_address', 'like', '%' . $search . '%')
-                ->orWhereHas('supplier', function ($subQ) use ($search) {
+                ->orWhereHas('supplier', function ($subQ) use ($search): void {
                     $subQ->where('name', 'like', '%' . $search . '%')
                          ->orWhere('phone', 'like', '%' . $search . '%');
                 });
         });
     }
 
-    return $query->paginate(2);
+    return $builder->paginate(2);
 }
 
 

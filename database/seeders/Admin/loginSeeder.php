@@ -14,7 +14,7 @@ class loginSeeder extends Seeder
     public function run(): void
     {
           // شركة 1 ***************************************
-       $createadmin1 =  Admin::create(
+       Admin::create(
             [
                 'name' => 'admin',
                 'email' => 'admin@gmail.com',

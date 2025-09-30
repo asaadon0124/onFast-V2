@@ -15,8 +15,7 @@ class RebortServantService implements RebortServantInterface
 
     public function getServants()
     {
-        $servants = Servant::select('name', 'id')->get();
-        return $servants;
+        return Servant::select('name', 'id')->get();
     }
 
 
@@ -25,7 +24,7 @@ class RebortServantService implements RebortServantInterface
     public function getAllOrderDetailes($status = null, $search = null, $filters = [])
     {
         $get_order_detailes = OrderDetailes::with(['product.supplier', 'product.governorate', 'product.city', 'status', 'adminUpdate'])
-            ->whereIn('id', function ($query)
+            ->whereIn('id', function ($query): void
             {
                 $query->select(DB::raw('MAX(id)'))
                     ->from('order_detailes')
@@ -41,7 +40,7 @@ class RebortServantService implements RebortServantInterface
 
         if (!empty($search))
         {
-            $get_order_detailes->whereHas('product', function ($q) use ($search)
+            $get_order_detailes->whereHas('product', function ($q) use ($search): void
             {
                 $q->where('tracking_number', 'like', "%{$search}%")
                 ->orWhere('resever_name', 'like', "%{$search}%")
@@ -67,7 +66,7 @@ class RebortServantService implements RebortServantInterface
         // فلترة بالمورد
         if (!empty($filters['servant_id']))
         {
-            $query->whereHas('order', function ($q) use ($filters)
+            $query->whereHas('order', function ($q) use ($filters): void
             {
                 $q->where('servant_id', $filters['servant_id']);
             });

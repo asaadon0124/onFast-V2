@@ -15,7 +15,7 @@ class ServantService implements ServantInterface
     public function index($search = null)
     {
 
-        return $data = Servant::where(function ($query) use ($search)
+        return $data = Servant::where(function ($query) use ($search): void
         {
             $query->where('name', 'like', '%' . $search . '%')
             ->orWhere('phone', 'like', '%' . $search . '%');
@@ -27,8 +27,7 @@ class ServantService implements ServantInterface
 
     public function create($data)
     {
-        $servant = Servant::create($data);
-        return $servant; // دلوقتي كل القيم متخزنة وموجودة
+        return Servant::create($data); // دلوقتي كل القيم متخزنة وموجودة
 
     }
 
@@ -39,7 +38,7 @@ class ServantService implements ServantInterface
     }
 
 
-    public function update($data, Servant $servant)
+    public function update($data, Servant $servant): Servant
     {
         $servant->update($data);
         return $servant;

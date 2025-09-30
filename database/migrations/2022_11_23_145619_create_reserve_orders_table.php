@@ -8,26 +8,22 @@ class CreateReserveOrdersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('reserve_orders', function (Blueprint $table) {
-            $table->id();
-            $table->integer('product_id');
-            $table->integer('status_id')->nullable();
-            $table->integer('reserve_id')->nullable();
-            $table->timestamps();
+        Schema::create('reserve_orders', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->integer('product_id');
+            $blueprint->integer('status_id')->nullable();
+            $blueprint->integer('reserve_id')->nullable();
+            $blueprint->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('reserve_orders');
     }

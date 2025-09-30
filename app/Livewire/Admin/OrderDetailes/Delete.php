@@ -15,14 +15,14 @@ class Delete extends Component
     protected $listeners = ['OrderDetailesDelete','refreshData' => '$refresh'];
 
 
-    public function OrderDetailesDelete($id, OrderDetailesService $orderDetailesService)
+    public function OrderDetailesDelete($id, OrderDetailesService $orderDetailesService): void
     {
         $this->orderDetailesService = $orderDetailesService;
         $this->orderDetailes = $orderDetailesService->find($id);
         $this->dispatch('deleteModalToggle');
     }
 
-    public function submit(ActionHistoryService $action_history,OrderDetailesService $orderDetailesService)
+    public function submit(ActionHistoryService $actionHistoryService,OrderDetailesService $orderDetailesService): void
     {
 
         if ($this->orderDetailes->product_status != 2)
@@ -36,7 +36,7 @@ class Delete extends Component
         {
             DB::beginTransaction();
                 $orderDetailesService->delete($this->orderDetailes);
-                $action_history->action('حذف الشحنة في خط السير',"حذف الشحنة في خط السير {$this->orderDetailes->product->tracking_number}",'OrderDetailes', $this->orderDetailes->id,auth('admin')->user()->id);
+                $actionHistoryService->action('حذف الشحنة في خط السير',"حذف الشحنة في خط السير {$this->orderDetailes->product->tracking_number}",'OrderDetailes', $this->orderDetailes->id,auth('admin')->user()->id);
             DB::commit();
 
         } catch (\Throwable $e)

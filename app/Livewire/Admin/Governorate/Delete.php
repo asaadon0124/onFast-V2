@@ -10,7 +10,7 @@ class Delete extends Component
 {
     protected $listeners = ['governorateDelete' => 'delete'];
 
-    public function delete($id)
+    public function delete($id): void
     {
         $governorateService = app(GovernorateService::class);
         $governorate = $governorateService->find($id);

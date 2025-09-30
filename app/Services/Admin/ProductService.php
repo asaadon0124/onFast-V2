@@ -12,13 +12,13 @@ class ProductService implements ProductInterface
     public function index($search = null)
     {
 
-        return $data = Product::where('status_id', 1)->where(function ($query) use ($search)
+        return $data = Product::where('status_id', 1)->where(function ($query) use ($search): void
         {
             $query->where('resever_name', 'like', '%' . $search . '%')
             ->orWhere('resver_phone', 'like', '%' . $search . '%')
             ->orWhere('tracking_number', 'like', '%' . $search . '%')
             ->orWhere('resver_address', 'like', '%' . $search . '%')
-            ->orWhereHas('supplier', function ($q) use ($search)
+            ->orWhereHas('supplier', function ($q) use ($search): void
             {
                     $q->where('name', 'like', '%' . $search . '%')
                     ->orWhere('phone', 'like', '%' . $search . '%');
@@ -32,8 +32,7 @@ class ProductService implements ProductInterface
 
     public function create($data)
     {
-        $product = Product::create($data);
-        return $product; // دلوقتي كل القيم متخزنة وموجودة
+        return Product::create($data); // دلوقتي كل القيم متخزنة وموجودة
     }
 
 
@@ -46,14 +45,14 @@ class ProductService implements ProductInterface
 
 
 
-    public function update($data, Product $product)
+    public function update($data, Product $product): Product
     {
         $product->update($data);
         return $product;
     }
 
 
-    public function show(Product $product)
+    public function show(Product $product): Product
     {
         return $product;
     }

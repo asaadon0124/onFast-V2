@@ -6,16 +6,16 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateStatusTable extends Migration {
 
-	public function up()
+	public function up(): void
 	{
-		Schema::create('status', function(Blueprint $table) {
-			$table->increments('id');
-			$table->timestamps();
-			$table->string('name', 255);
+		Schema::create('status', function(Blueprint $blueprint): void {
+			$blueprint->increments('id');
+			$blueprint->timestamps();
+			$blueprint->string('name', 255);
 		});
 	}
 
-	public function down()
+	public function down(): void
 	{
 		Schema::drop('status');
 	}

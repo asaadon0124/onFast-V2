@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('action_histories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('desc');
-            $table->string('table_name');
-            $table->integer('row_id');
-            $table->integer('created_by');
-            $table->timestamps();
+        Schema::create('action_histories', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->string('title');
+            $blueprint->text('desc');
+            $blueprint->string('table_name');
+            $blueprint->integer('row_id');
+            $blueprint->integer('created_by');
+            $blueprint->timestamps();
         });
     }
 

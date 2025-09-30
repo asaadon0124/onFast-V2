@@ -14,15 +14,15 @@ class Data extends Component
     public $search;
 
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
     
-    public function render(CityService $city)
+    public function render(CityService $cityService)
     {
-        $data = $city->index($this->search);
-        return view('livewire.admin.city.data',compact('data'));
+        $data = $cityService->index($this->search);
+        return view('livewire.admin.city.data',['data' => $data]);
     }
 }

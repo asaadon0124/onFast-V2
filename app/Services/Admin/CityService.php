@@ -13,7 +13,7 @@ class CityService implements CityInterface
 
     public function index($search = null)
     {
-        return $data = City::where(function ($query) use ($search)
+        return $data = City::where(function ($query) use ($search): void
         {
             $query->where('name', 'like', '%' . $search . '%');
 

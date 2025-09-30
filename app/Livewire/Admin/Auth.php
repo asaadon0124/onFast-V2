@@ -14,9 +14,9 @@ class Auth extends Component
 
     protected AdminAuthInterface $AuthAdminService;
 
-    public function boot(AdminAuthInterface $AuthAdminService)
+    public function boot(AdminAuthInterface $adminAuth): void
     {
-        $this->AuthAdminService = $AuthAdminService;
+        $this->AuthAdminService = $adminAuth;
     }
 
 
@@ -36,6 +36,7 @@ class Auth extends Component
         }
 
         $this->addError('email', 'بيانات الدخول غير صحيحة');
+        return null;
     }
 
 

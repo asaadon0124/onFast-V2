@@ -55,7 +55,7 @@ class Order extends Model
     {
 
 
-        static::creating(function ($order)
+        static::creating(function ($order): void
         {
 
             if (auth('admin')->check())
@@ -74,7 +74,7 @@ class Order extends Model
             $order->tracking_number   = self::generateTrackingNumber();
         });
 
-        static::updating(function ($order)
+        static::updating(function ($order): void
         {
             $order->updated_by    = auth('admin')->id();
         });
@@ -82,7 +82,7 @@ class Order extends Model
 
 
     // توليد رقم الشحنة بشكل تلقائي
-    protected static function generateTrackingNumber()
+    protected static function generateTrackingNumber(): string
     {
         do
         {

@@ -6,25 +6,25 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateServantsTable extends Migration {
 
-	public function up()
+	public function up(): void
 	{
-		Schema::create('servants', function(Blueprint $table) {
-			$table->increments('id');
-			$table->date('created_at');
-			$table->date('updated_at');
-			$table->string('name', 255);
-			$table->string('adress', 255);
-			$table->string('phone', 100);
-			$table->string('password');
-			$table->integer('created_by');
-            $table->integer('updated_by');
-            $table->enum('status',['active','un_active'])->default('active');
+		Schema::create('servants', function(Blueprint $blueprint): void {
+			$blueprint->increments('id');
+			$blueprint->date('created_at');
+			$blueprint->date('updated_at');
+			$blueprint->string('name', 255);
+			$blueprint->string('adress', 255);
+			$blueprint->string('phone', 100);
+			$blueprint->string('password');
+			$blueprint->integer('created_by');
+            $blueprint->integer('updated_by');
+            $blueprint->enum('status',['active','un_active'])->default('active');
 
 
 		});
 	}
 
-	public function down()
+	public function down(): void
 	{
 		Schema::drop('servants');
 	}

@@ -43,7 +43,7 @@ public function create($data, $orderId, $selectedProduct)
 
 
 
-    public function update($data, OrderDetailes $orderDetailes)
+    public function update($data, OrderDetailes $orderDetailes): OrderDetailes
     {
         $data['updated_by']     = auth('admin')->id();
 
@@ -70,7 +70,7 @@ public function create($data, $orderId, $selectedProduct)
     }
 
 
-    public function show(OrderDetailes $orderDetailes, $search = null)
+    public function show(OrderDetailes $orderDetailes, $search = null): void
     {
         // $query = OrderDetailes::where('order_id', $order->id);
 

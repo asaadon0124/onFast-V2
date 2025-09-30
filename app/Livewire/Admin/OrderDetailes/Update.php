@@ -37,7 +37,7 @@ class Update extends Component
     protected $listeners = ['OrderDetailesUpdate'];
 
 
-    public function OrderDetailesUpdate($id, OrderDetailesService $orderDetailesService)
+    public function OrderDetailesUpdate($id, OrderDetailesService $orderDetailesService): void
     {
         $this->products             = Product::where('status_id', '1')->get();
         $this->orderDetailesService = $orderDetailesService;
@@ -66,7 +66,7 @@ class Update extends Component
     }
 
 
-    public function updatedproductID($id)
+    public function updatedproductID($id): void
     {
         if ($id)
         {
@@ -85,17 +85,17 @@ class Update extends Component
     }
 
 
-    public function change_shipping_price($value)
+    public function change_shipping_price($value): void
     {
         $this->shipping_price = $value;
         $this->total_price = $value + $this->product_price;
     }
 
 
-    public function submit(ActionHistoryService $action_history,OrderDetailesService $orderDetailesService)
+    public function submit(ActionHistoryService $actionHistoryService,OrderDetailesService $orderDetailesService): void
     {
 
-        if ($this->product_price != $this->old_product_price && $this->product_id == $$this->product->product->id)
+        if ($this->product_price != $this->old_product_price && $this->product_id == ${$this}->product->product->id)
         {
             $this->addError('product_price', 'سعر الشحنة غير صحيح.');
             return;
@@ -107,13 +107,13 @@ class Update extends Component
             return;
         }
 
-        $validated = $this->validate((new OrderDetailesRequest())->rules($this->productDetailesID), (new OrderDetailesRequest())->messages());
+        $validated = $this->validate((new OrderDetailesRequest())->rules(), (new OrderDetailesRequest())->messages());
         try
         {
             DB::beginTransaction();
                 $orderDetailesService->update($validated, app(OrderDetailesService::class)->find($this->productDetailesID));
                 // refreshCitiesCache();
-                $action_history->action('تعديل الشحنة في خط السير',"تعديل الشحنة في خط السير {$this->tracking_number}",'OrderDetailes', $this->productDetailesID,auth('admin')->user()->id);
+                $actionHistoryService->action('تعديل الشحنة في خط السير',"تعديل الشحنة في خط السير {$this->tracking_number}",'OrderDetailes', $this->productDetailesID,auth('admin')->user()->id);
             DB::commit();
 
         } catch (\Throwable $e)

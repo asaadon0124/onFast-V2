@@ -27,7 +27,7 @@ class Update extends Component
 
 
 
-    public function servantUpdate($id,ServantService $servantService)
+    public function servantUpdate($id,ServantService $servantService): void
     {
 
         $this->servantService  = $servantService;
@@ -47,7 +47,7 @@ class Update extends Component
 
 
 
- public function submit(ActionHistoryService $action_history,ServantService $servantService)
+ public function submit(ActionHistoryService $actionHistoryService,ServantService $servantService): void
     {
         $validated = $this->validate((new ServantRequest())->rules($this->servantID), (new ServantRequest())->messages());
         try
@@ -55,10 +55,10 @@ class Update extends Component
             DB::beginTransaction();
                 $servantService->update($validated, app(servantService::class)->find($this->servantID));
                 // refreshCitiesCache();
-                $action_history->action('تعديل مندوب',"تعديل مندوب {$this->name}",'Servant', $this->servantID,auth('admin')->user()->id);
+                $actionHistoryService->action('تعديل مندوب',"تعديل مندوب {$this->name}",'Servant', $this->servantID,auth('admin')->user()->id);
             DB::commit();
 
-        } catch (\Throwable $e)
+        } catch (\Throwable)
         {
             DB::rollBack();
             $this->dispatch('servantsErrorMS'); // Flash Message خطأ

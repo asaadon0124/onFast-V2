@@ -15,13 +15,10 @@ define('PAGINATION_PER_PAGE', 2);
 
 
         // حفظ الكاش لمدة ساعة
-        return $data = Cache::remember('governorates_all',60*60,function()
-        {
-            return $governorates = Governorate::with('cities')->get();
-        });
+        return $data = Cache::remember('governorates_all',60*60,fn() => $governorates = Governorate::with('cities')->get());
     }
 
-    function refreshCitiesCache()
+    function refreshCitiesCache(): void
     {
         $cities = City::with('governorate')->get(); // جلب كل المدن مع المحافظات
         Cache::put('cities_all', $cities, 60*60); // حفظ الكاش لمدة ساعة

@@ -42,7 +42,7 @@ class City extends Model
        static::addGlobalScope(new ActiveScope);
 
 
-        static::creating(function ($city)
+        static::creating(function ($city): void
         {
             if (auth('admin')->check())
             {
@@ -59,7 +59,7 @@ class City extends Model
 
         });
 
-        static::updating(function ($city)
+        static::updating(function ($city): void
         {
             $city->updated_by = auth('admin')->id();
 

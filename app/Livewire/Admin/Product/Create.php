@@ -39,7 +39,7 @@ class Create extends Component
     protected $listeners = ['productCreate'];
 
 
-    public function productCreate()
+    public function productCreate(): void
     {
         $this->governorates = Governorate::all();
         $this->suppliers    = Supplier::select('id','name')->get();
@@ -47,12 +47,12 @@ class Create extends Component
     }
 
 
-    public function change_gov($value)
+    public function change_gov($value): void
     {
         $this->cities = City::where('governorate_id',$value)->get();
     }
 
-    public function change_product_price($value)
+    public function change_product_price($value): void
     {
         $this->product_price = $value;
         $this->total_price = $value + $this->shipping_price;
@@ -60,14 +60,14 @@ class Create extends Component
 
 
 
-    public function change_shipping_price($value)
+    public function change_shipping_price($value): void
     {
         $this->shipping_price = $value;
         $this->total_price = $value + $this->product_price;
     }
 
 
-    public function submit(ProductService $productService,ActionHistoryService $action_history)
+    public function submit(ProductService $productService,ActionHistoryService $actionHistoryService): void
     {
         $validated = $this->validate((new ProductRequest())->rules(), (new ProductRequest())->messages());
 
@@ -76,10 +76,10 @@ class Create extends Component
             DB::beginTransaction();
                 $product = $productService->create($validated);   // 1 - CREATE NEW PRODUCT
                 // refreshCitiesCache();   // 2 - Update Cities Cache
-                $action_history->action('اضافة شحنة جديدة',"انشاء شحنة جديدة {$product->tracking_number}",'Product', $product->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
+                $actionHistoryService->action('اضافة شحنة جديدة',"انشاء شحنة جديدة {$product->tracking_number}",'Product', $product->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
             DB::commit();
 
-       } catch (\Throwable $e)
+       } catch (\Throwable)
        {
             DB::rollBack();
 

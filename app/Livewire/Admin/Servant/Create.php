@@ -21,7 +21,7 @@ class Create extends Component
     protected $listeners = ['servantCreate'];
 
 
-    public function servantCreate()
+    public function servantCreate(): void
     {
         $this->dispatch('createModalToggle');
     }
@@ -30,7 +30,7 @@ class Create extends Component
 
 
 
-     public function submit(ServantService $servantService,ActionHistoryService $action_history)
+     public function submit(ServantService $servantService,ActionHistoryService $actionHistoryService): void
     {
         //  dd($this->all());
         $validated = $this->validate((new ServantRequest())->rules(), (new ServantRequest())->messages());
@@ -41,7 +41,7 @@ class Create extends Component
 
                 $servant = $servantService->create($validated);   // 1 - CREATE NEW CITY
                 // refreshCitiesCache();   // 2 - Update Cities Cache
-                $action_history->action('اضافة مندوب جديد',"انشاء مندوب جديد {$servant->name}",'Servant', $servant->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
+                $actionHistoryService->action('اضافة مندوب جديد',"انشاء مندوب جديد {$servant->name}",'Servant', $servant->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
             DB::commit();
 
        } catch (\Throwable $e)

@@ -8,37 +8,33 @@ class CreateReturnsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('returns', function (Blueprint $table) {
-            $table->increments('id');
-			$table->date('created_at');
-			$table->date('updated_at');
-			$table->date('rescive_date');
-			$table->string('resever_name', 100);
-			$table->string('resver_phone', 100)->unique();
-			$table->integer('supplier_id')->unsigned();
-			$table->integer('city_id')->unsigned();
-			$table->string('adress', 255);
-			$table->integer('product_price')->unsigned();
-			$table->integer('status_id')->unsigned()->default(0);
-			$table->integer('order_id')->unsigned()->default(0);
-			$table->string('package_number');
-            $table->text('notes')->nullable();
-            $table->softDeletes();
+        Schema::create('returns', function (Blueprint $blueprint): void {
+            $blueprint->increments('id');
+			$blueprint->date('created_at');
+			$blueprint->date('updated_at');
+			$blueprint->date('rescive_date');
+			$blueprint->string('resever_name', 100);
+			$blueprint->string('resver_phone', 100)->unique();
+			$blueprint->integer('supplier_id')->unsigned();
+			$blueprint->integer('city_id')->unsigned();
+			$blueprint->string('adress', 255);
+			$blueprint->integer('product_price')->unsigned();
+			$blueprint->integer('status_id')->unsigned()->default(0);
+			$blueprint->integer('order_id')->unsigned()->default(0);
+			$blueprint->string('package_number');
+            $blueprint->text('notes')->nullable();
+            $blueprint->softDeletes();
 
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('returns');
     }

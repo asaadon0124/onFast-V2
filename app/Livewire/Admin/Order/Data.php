@@ -15,7 +15,7 @@ class Data extends Component
     public $search;
 
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
@@ -27,6 +27,6 @@ class Data extends Component
     public function render(OrderInterface $order)
     {
         $data = $order->index($this->search);
-        return view('livewire.admin.order.data',compact('data'));
+        return view('livewire.admin.order.data',['data' => $data]);
     }
 }

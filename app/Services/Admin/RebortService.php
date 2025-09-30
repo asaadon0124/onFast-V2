@@ -16,8 +16,7 @@ class RebortService implements RebortInterface
 
     public function getSuppliers()
     {
-        $suppliers = Supplier::select('name', 'id')->get();
-        return $suppliers;
+        return Supplier::select('name', 'id')->get();
     }
 
 
@@ -26,10 +25,10 @@ class RebortService implements RebortInterface
 
 
 
-public function getNewProducts($search = null, $filters = [])
+public function getNewProducts($search = null, $filters = []): array
 {
     $newProducts = Product::where('status_id', 1)
-        ->where(function ($query) use ($search)
+        ->where(function ($query) use ($search): void
         {
             if (!empty($search))
             {
@@ -54,7 +53,7 @@ public function getNewProducts($search = null, $filters = [])
     public function getAllOrderDetailes($status = null, $search = null, $filters = [])
     {
         $get_order_detailes = OrderDetailes::with(['product.supplier', 'product.governorate', 'product.city', 'status', 'adminUpdate'])
-            ->whereIn('id', function ($query)
+            ->whereIn('id', function ($query): void
             {
                 $query->select(DB::raw('MAX(id)'))
                     ->from('order_detailes')
@@ -70,7 +69,7 @@ public function getNewProducts($search = null, $filters = [])
 
         if (!empty($search))
         {
-            $get_order_detailes->whereHas('product', function ($q) use ($search)
+            $get_order_detailes->whereHas('product', function ($q) use ($search): void
             {
                 $q->where('tracking_number', 'like', "%{$search}%")
                 ->orWhere('resever_name', 'like', "%{$search}%")
@@ -113,7 +112,7 @@ public function getNewProducts($search = null, $filters = [])
         // فلترة بالمورد
         if (!empty($filters['supplier_id']))
         {
-            $query->whereHas('product', function ($q) use ($filters)
+            $query->whereHas('product', function ($q) use ($filters): void
             {
                 $q->where('supplier_id', $filters['supplier_id']);
             });

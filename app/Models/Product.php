@@ -93,10 +93,10 @@ class Product extends Model
        static::addGlobalScope(new ActiveScope);
 
 
-        static::creating(function ($product)
+        static::creating(function ($product): void
         {
 
-            $calculator = app(TotalPriceService::class);
+            $totalPriceService = app(TotalPriceService::class);
             if (auth('admin')->check())
             {
                 $product->created_by        = auth('admin')->id();
@@ -109,21 +109,21 @@ class Product extends Model
 
             $product->status_id         = 1;
             $product->tracking_number   = self::generateTrackingNumber();
-            $product->total_price       = $calculator->calculate($product->product_price,$product->shipping_price);
+            $product->total_price       = $totalPriceService->calculate($product->product_price,$product->shipping_price);
         });
 
-        static::updating(function ($product)
+        static::updating(function ($product): void
         {
-            $calculator             = app(TotalPriceService::class);
+            $totalPriceService             = app(TotalPriceService::class);
             $product->updated_by    = auth('admin')->id();
             $product->date          = now()->toDateString();
-            $product->total_price   = $calculator->calculate($product->product_price,$product->shipping_price);
+            $product->total_price   = $totalPriceService->calculate($product->product_price,$product->shipping_price);
         });
     }
 
 
     // توليد رقم الشحنة بشكل تلقائي
-    protected static function generateTrackingNumber()
+    protected static function generateTrackingNumber(): string
     {
         do
         {

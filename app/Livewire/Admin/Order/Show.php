@@ -21,7 +21,7 @@ class Show extends Component
         'search' => ['except' => ''],
     ];
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
@@ -33,7 +33,7 @@ class Show extends Component
 
 
 
-    public function mount($id,OrderService $orderService)
+    public function mount($id,OrderService $orderService): void
     {
         $this->orderId              = $id;
         $this->order                = $orderService->find($this->orderId);

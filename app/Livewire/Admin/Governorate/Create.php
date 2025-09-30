@@ -18,7 +18,7 @@ class Create extends Component
      protected $listeners = ['governorateCreate'];
 
 
-    public function governorateCreate()
+    public function governorateCreate(): void
     {
         // show Create modal
         $this->dispatch('createModalToggle');
@@ -26,7 +26,7 @@ class Create extends Component
 
 
 
-    public function submit(GovernorateService $governorateService, ActionHistoryService $action_history)
+    public function submit(GovernorateService $governorateService, ActionHistoryService $actionHistoryService): void
     {
 
         $validated = $this->validate((new GovernorateRequest())->rules(), (new GovernorateRequest())->messages());
@@ -36,7 +36,7 @@ class Create extends Component
             DB::beginTransaction();
 
                 $governorate = $governorateService->create($validated);
-                $action_history->action('اضافة محافظة جديدة','انشاء محافظة جديدة {$governorate->name}','Governorate', $governorate->id,auth('admin')->user()->id);
+                $actionHistoryService->action('اضافة محافظة جديدة','انشاء محافظة جديدة {$governorate->name}','Governorate', $governorate->id,auth('admin')->user()->id);
 
             DB::commit();
         } catch (\Throwable $e)

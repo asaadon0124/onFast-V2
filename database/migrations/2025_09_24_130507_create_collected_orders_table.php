@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('collected_orders', function (Blueprint $table) {
-            $table->id();
-            $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->integer('order_detailes_id')->unsigned();
-            $table->foreign('order_detailes_id')->references('id')->on('order_detailes')->onDelete('cascade');
-            $table->integer('supplier_id')->unsigned();
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->decimal('amount', 10, 2)->default(0); // المبلغ المحصل
-            $table->date('date'); // تاريخ التحصيل
-            $table->timestamps();
+        Schema::create('collected_orders', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->integer('product_id')->unsigned();
+            $blueprint->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $blueprint->integer('order_detailes_id')->unsigned();
+            $blueprint->foreign('order_detailes_id')->references('id')->on('order_detailes')->onDelete('cascade');
+            $blueprint->integer('supplier_id')->unsigned();
+            $blueprint->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $blueprint->decimal('amount', 10, 2)->default(0); // المبلغ المحصل
+            $blueprint->date('date'); // تاريخ التحصيل
+            $blueprint->timestamps();
         });
     }
 

@@ -82,7 +82,7 @@ class OrderDetailes extends Model
     {
 
 
-        static::creating(function ($orderDetailes)
+        static::creating(function ($orderDetailes): void
         {
 
             if (auth('admin')->check())
@@ -99,13 +99,13 @@ class OrderDetailes extends Model
             $orderDetailes->admin_id                = auth('admin')->id();
         });
 
-        static::updating(function ($orderDetailes)
+        static::updating(function ($orderDetailes): void
         {
             $orderDetailes->updated_by    = auth('admin')->id();
         });
 
 
-        static::deleting(function ($orderDetailes)
+        static::deleting(function ($orderDetailes): void
         {
             if ($orderDetailes->product)
             {

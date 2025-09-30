@@ -8,24 +8,20 @@ class AddSoftDeleteColumnToGovernoratesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('governorates', function (Blueprint $table) {
-            $table->softDeletes();
+        Schema::table('governorates', function (Blueprint $blueprint): void {
+            $blueprint->softDeletes();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('governorates', function (Blueprint $table) {
+        Schema::table('governorates', function (Blueprint $blueprint): void {
             //
         });
     }

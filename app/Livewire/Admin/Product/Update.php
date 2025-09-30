@@ -45,7 +45,7 @@ class Update extends Component
 
 
 
-    public function productUpdate($id,ProductService $productService)
+    public function productUpdate($id,ProductService $productService): void
     {
         $this->productService   = $productService;
         $this->productID        = $id;
@@ -73,12 +73,12 @@ class Update extends Component
     }
 
 
-     public function change_gov($value)
+     public function change_gov($value): void
     {
         $this->cities = City::where('governorate_id',$value)->get();
     }
 
-    public function change_product_price($value)
+    public function change_product_price($value): void
     {
         $this->product_price = $value;
         $this->total_price = $value + $this->shipping_price;
@@ -86,14 +86,14 @@ class Update extends Component
 
 
 
-    public function change_shipping_price($value)
+    public function change_shipping_price($value): void
     {
         $this->shipping_price = $value;
         $this->total_price = $value + $this->product_price;
     }
 
 
-    public function submit(ActionHistoryService $action_history,ProductService $productService)
+    public function submit(ActionHistoryService $actionHistoryService,ProductService $productService): void
     {
         $validated = $this->validate((new ProductRequest())->rules($this->productID), (new ProductRequest())->messages());
         try
@@ -101,10 +101,10 @@ class Update extends Component
             DB::beginTransaction();
                 $productService->update($validated, app(ProductService::class)->find($this->productID));
                 // refreshCitiesCache();
-                $action_history->action('تعديل الشحنة',"تعديل الشحنة {$this->tracking_number}",'Product', $this->productID,auth('admin')->user()->id);
+                $actionHistoryService->action('تعديل الشحنة',"تعديل الشحنة {$this->tracking_number}",'Product', $this->productID,auth('admin')->user()->id);
             DB::commit();
 
-        } catch (\Throwable $e)
+        } catch (\Throwable)
         {
             DB::rollBack();
             $this->dispatch('productsErrorMS'); // Flash Message خطأ

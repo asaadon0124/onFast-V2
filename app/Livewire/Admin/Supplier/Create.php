@@ -25,20 +25,20 @@ class Create extends Component
     protected $listeners = ['supplierCreate'];
 
 
-    public function supplierCreate()
+    public function supplierCreate(): void
     {
         $this->governorates = Governorate::all();
         $this->dispatch('createModalToggle');
     }
 
 
-    public function change_gov($value)
+    public function change_gov($value): void
     {
         $this->cities = City::where('governorate_id',$value)->get();
     }
 
 
-     public function submit(SupplierService $supplierService,ActionHistoryService $action_history)
+     public function submit(SupplierService $supplierService,ActionHistoryService $actionHistoryService): void
     {
         $validated = $this->validate((new SupplierRequest())->rules(), (new SupplierRequest())->messages());
 
@@ -48,7 +48,7 @@ class Create extends Component
             DB::beginTransaction();
                 $supplier = $supplierService->create($validated);   // 1 - CREATE NEW CITY
                 // refreshCitiesCache();   // 2 - Update Cities Cache
-                $action_history->action('اضافة مورد جديد',"انشاء مورد جديد {$supplier->name}",'Supplier', $supplier->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
+                $actionHistoryService->action('اضافة مورد جديد',"انشاء مورد جديد {$supplier->name}",'Supplier', $supplier->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
             DB::commit();
 
        } catch (\Throwable $e)

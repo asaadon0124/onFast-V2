@@ -31,7 +31,7 @@ class Update extends Component
 
 
 
-    public function supplierUpdate($id,SupplierService $supplierService)
+    public function supplierUpdate($id,SupplierService $supplierService): void
     {
 
         $this->supplierService  = $supplierService;
@@ -50,14 +50,14 @@ class Update extends Component
         $this->dispatch('updateModalToggle');
     }
 
-    public function change_gov($value)
+    public function change_gov($value): void
     {
         $this->cities = City::where('governorate_id',$value)->get();
     }
 
 
 
-    public function submit(ActionHistoryService $action_history,supplierService $supplierService)
+    public function submit(ActionHistoryService $actionHistoryService,supplierService $supplierService): void
     {
         $validated = $this->validate((new SupplierRequest())->rules($this->supplierID), (new SupplierRequest())->messages());
         try
@@ -65,10 +65,10 @@ class Update extends Component
             DB::beginTransaction();
                 $supplierService->update($validated, app(supplierService::class)->find($this->supplierID));
                 // refreshCitiesCache();
-                $action_history->action('تعديل مورد',"تعديل مورد {$this->name}",'Supplier', $this->supplierID,auth('admin')->user()->id);
+                $actionHistoryService->action('تعديل مورد',"تعديل مورد {$this->name}",'Supplier', $this->supplierID,auth('admin')->user()->id);
             DB::commit();
 
-        } catch (\Throwable $e)
+        } catch (\Throwable)
         {
             DB::rollBack();
             $this->dispatch('suppliersErrorMS'); // Flash Message خطأ

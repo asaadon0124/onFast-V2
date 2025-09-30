@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-              $table->integer('type')->default(0)->after('status_id');
+        Schema::table('products', function (Blueprint $blueprint): void {
+              $blueprint->integer('type')->default(0)->after('status_id');
             // 👆 حقل نصي، nullable، ويتضاف بعد عمود status_id
         });
     }
@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
+        Schema::table('products', function (Blueprint $blueprint): void {
             //
         });
     }

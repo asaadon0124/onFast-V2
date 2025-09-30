@@ -27,14 +27,14 @@ class Create extends Component
      protected $listeners = ['orderCreate'];
 
 
-    public function orderCreate()
+    public function orderCreate(): void
     {
         $this->servants = Servant::select('id','name','phone')->get();
         $this->dispatch('createModalToggle');
     }
 
 
-     public function submit(OrderService $orderService,ActionHistoryService $action_history)
+     public function submit(OrderService $orderService,ActionHistoryService $actionHistoryService): void
     {
         $validated = $this->validate((new OrderRequest())->rules(), (new OrderRequest())->messages());
 
@@ -43,10 +43,10 @@ class Create extends Component
             DB::beginTransaction();
                 $order = $orderService->create($validated);   // 1 - CREATE NEW PRODUCT
                 // refreshCitiesCache();   // 2 - Update Cities Cache
-                $action_history->action('اضافة خط سير جديد',"انشاء خط سير جديد {$order->tracking_number}",'Order', $order->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
+                $actionHistoryService->action('اضافة خط سير جديد',"انشاء خط سير جديد {$order->tracking_number}",'Order', $order->id,auth('admin')->user()->id);   // 3 - CREATE NEW ACTION HISTORY
             DB::commit();
 
-       } catch (\Throwable $e)
+       } catch (\Throwable)
        {
             DB::rollBack();
 

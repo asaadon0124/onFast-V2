@@ -10,7 +10,7 @@ class PrintRebort extends Component
 {
     public $status_id, $search, $supplier, $start_date, $end_date, $totalPrice,$supplier_id,$data_filter=[];
 
-    public function mount(RebortService $rebortService, $status_id = null, $search = null, $supplier = null, $start_date = null, $end_date = null)
+    public function mount(RebortService $rebortService, $status_id = null, $search = null, $supplier = null, $start_date = null, $end_date = null): void
     {
         $this->status_id    = $status_id;
         $this->search       = $search;
@@ -26,7 +26,7 @@ class PrintRebort extends Component
         // $this->supplier_id  = $this->supplier->id;
     }
 
-    public function printReport()
+    public function printReport(): void
     {
         // dd($this->data_filter);
         $this->dispatch('printWindow');
@@ -52,7 +52,7 @@ class PrintRebort extends Component
             $this->totalPrice   = $get_order_detailes->sum('total_price');
         }
 
-        return view('livewire.admin.reborts.print-rebort', compact('get_order_detailes', 'newProducts',))->with(['status_id' => $this->status_id]);
+        return view('livewire.admin.reborts.print-rebort', ['get_order_detailes' => $get_order_detailes, 'newProducts' => $newProducts])->with(['status_id' => $this->status_id]);
     }
 }
 

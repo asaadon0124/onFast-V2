@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('returned_orders', function (Blueprint $table) {
-            $table->id();
-            $table->integer('product_id')->unsigned();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->integer('order_detailes_id')->unsigned();
-            $table->foreign('order_detailes_id')->references('id')->on('order_detailes')->onDelete('cascade');
-            $table->integer('supplier_id')->unsigned();
-            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->date('date'); // تاريخ المرتجع
-            $table->timestamps();
+        Schema::create('returned_orders', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->integer('product_id')->unsigned();
+            $blueprint->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $blueprint->integer('order_detailes_id')->unsigned();
+            $blueprint->foreign('order_detailes_id')->references('id')->on('order_detailes')->onDelete('cascade');
+            $blueprint->integer('supplier_id')->unsigned();
+            $blueprint->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $blueprint->date('date'); // تاريخ المرتجع
+            $blueprint->timestamps();
         });
     }
 

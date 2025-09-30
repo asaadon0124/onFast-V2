@@ -39,7 +39,7 @@ class Servant extends Model
        static::addGlobalScope(new ActiveScope);
 
 
-        static::creating(function ($servant)
+        static::creating(function ($servant): void
         {
             if (auth('admin')->check())
             {
@@ -52,7 +52,7 @@ class Servant extends Model
             }
         });
 
-        static::updating(function ($servant)
+        static::updating(function ($servant): void
         {
             $servant->updated_by = auth('admin')->id();
         });

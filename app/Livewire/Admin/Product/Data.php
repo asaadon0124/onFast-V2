@@ -16,17 +16,17 @@ class Data extends Component
     public $search;
 
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
 
 
 
-    public function render(ProductService $product)
+    public function render(ProductService $productService)
     {
         // dd($product->index($this->search));
-        $data = $product->index($this->search);
-        return view('livewire.admin.product.data',compact('data'));
+        $data = $productService->index($this->search);
+        return view('livewire.admin.product.data',['data' => $data]);
     }
 }

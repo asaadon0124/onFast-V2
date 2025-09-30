@@ -54,7 +54,7 @@ class Supplier extends Model
        static::addGlobalScope(new ActiveScope);
 
 
-        static::creating(function ($supplier)
+        static::creating(function ($supplier): void
         {
             if (auth('admin')->check())
             {
@@ -67,7 +67,7 @@ class Supplier extends Model
             }
         });
 
-        static::updating(function ($supplier)
+        static::updating(function ($supplier): void
         {
             $supplier->updated_by = auth('admin')->id();
         });

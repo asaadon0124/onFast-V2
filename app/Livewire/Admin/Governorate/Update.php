@@ -18,7 +18,7 @@ class Update extends Component
 
 
      // Listener لتلقي الـ ID وفتح المودال
-    public function governorateUpdate($id)
+    public function governorateUpdate($id): void
     {
 
         $governorate = app(GovernorateService::class)->find($id);
@@ -31,7 +31,7 @@ class Update extends Component
 
 
 
-    public function submit(GovernorateService $governorateService , ActionHistoryService $action_history)
+    public function submit(GovernorateService $governorateService , ActionHistoryService $actionHistoryService): void
     {
         $validated = $this->validate((new GovernorateRequest())->rules($this->govID), (new GovernorateRequest())->messages());
 
@@ -39,7 +39,7 @@ class Update extends Component
         try
         {
             $governorate = $governorateService->update($validated, app(GovernorateService::class)->find($this->govID));
-            $action_history->action('تعديل محافظة','تعديل محافظة {$governorate->name}','Governorate', $governorate->id,auth('admin')->user()->id);
+            $actionHistoryService->action('تعديل محافظة','تعديل محافظة {$governorate->name}','Governorate', $governorate->id,auth('admin')->user()->id);
 
 
         } catch (\Throwable $e)

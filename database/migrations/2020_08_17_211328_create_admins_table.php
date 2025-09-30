@@ -8,28 +8,24 @@ class CreateAdminsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('admins', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('password');
-            $table->text('photo')->nullable();
-            $table->timestamps();
+        Schema::create('admins', function (Blueprint $blueprint): void {
+            $blueprint->increments('id');
+            $blueprint->string('name');
+            $blueprint->string('phone');
+            $blueprint->string('email');
+            $blueprint->string('password');
+            $blueprint->text('photo')->nullable();
+            $blueprint->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('admins');
     }

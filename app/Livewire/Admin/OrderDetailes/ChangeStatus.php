@@ -19,7 +19,7 @@ public $status_id;
 public $update_btn = false;
 
 
-    public function mount($item)
+    public function mount($item): void
     {
         $this->statuses              = Status::whereNotIn('id', [1, 6, 7])->get();
         $this->productDetailesID     = $item->id;
@@ -30,7 +30,7 @@ public $update_btn = false;
 
 
 
-    public function change_product_status($value)
+    public function change_product_status($value): void
     {
         $this->product_status   = $value;
         $this->status_id        = $value;
@@ -38,15 +38,15 @@ public $update_btn = false;
     }
 
 
-    public function updateStatus(ActionHistoryService $action_history,ProductManagementStatusService $orderDetailesService)
+    public function updateStatus(ActionHistoryService $actionHistoryService,ProductManagementStatusService $productManagementStatusService): void
     {
         // dd($this->all());
        try
        {
         DB::beginTransaction();
             $validated      = $this->validate((new ChangeStatusRequest())->rules(), (new ChangeStatusRequest())->messages());
-            $orderDetailes  = $orderDetailesService->changeStatus($validated,app(ProductManagementStatusService::class)->find($this->productDetailesID));
-            $action_history->action('تعديل حالة الشحنة في خط السير',"تعديل حالة الشحنة في خط السير {$orderDetailes->product->tracking_number}",'OrderDetailes', $this->productDetailesID,auth('admin')->user()->id);
+            $orderDetailes  = $productManagementStatusService->changeStatus($validated,app(ProductManagementStatusService::class)->find($this->productDetailesID));
+            $actionHistoryService->action('تعديل حالة الشحنة في خط السير',"تعديل حالة الشحنة في خط السير {$orderDetailes->product->tracking_number}",'OrderDetailes', $this->productDetailesID,auth('admin')->user()->id);
             $this->update_btn = false;
         DB::commit();
 

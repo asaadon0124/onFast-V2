@@ -8,25 +8,21 @@ class CreateReservesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('reserves', function (Blueprint $table) {
-            $table->id();
-            $table->integer('supplier_id');
-            $table->integer('type')->default(0);
-            $table->timestamps();
+        Schema::create('reserves', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->integer('supplier_id');
+            $blueprint->integer('type')->default(0);
+            $blueprint->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('reserves');
     }

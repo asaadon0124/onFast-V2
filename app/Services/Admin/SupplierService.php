@@ -14,7 +14,7 @@ class SupplierService implements SupplierInterface
     public function index($search = null)
     {
 
-        return $data = Supplier::where(function ($query) use ($search)
+        return $data = Supplier::where(function ($query) use ($search): void
         {
             $query->where('name', 'like', '%' . $search . '%');
 
@@ -30,9 +30,7 @@ class SupplierService implements SupplierInterface
         $data['created_by'] = auth('admin')->id();
         $data['updated_by'] = auth('admin')->id();
 
-        $supplier = Supplier::create($data);
-
-        return $supplier; // دلوقتي كل القيم متخزنة وموجودة
+        return Supplier::create($data); // دلوقتي كل القيم متخزنة وموجودة
 
     }
 
@@ -46,7 +44,7 @@ class SupplierService implements SupplierInterface
 
 
 
-    public function update($data, Supplier $supplier)
+    public function update($data, Supplier $supplier): Supplier
     {
         $data['updated_by'] = auth('admin')->id();
         $supplier->update($data);

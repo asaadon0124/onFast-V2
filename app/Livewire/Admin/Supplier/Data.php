@@ -14,7 +14,7 @@ class Data extends Component
     public $search;
     // public $searchAccountType;
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
@@ -23,6 +23,6 @@ class Data extends Component
     public function render(SupplierService $supplierService)
     {
         $data = $supplierService->index($this->search);
-        return view('livewire.admin.supplier.data',compact('data'));
+        return view('livewire.admin.supplier.data',['data' => $data]);
     }
 }

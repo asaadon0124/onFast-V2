@@ -16,9 +16,9 @@ class Data extends Component
     public $search;
 
 
-    public function updatingSearch()
+    public function updatingSearch(): void
     {
-        $this->search = trim($this->search); // هنا برجع القيمة مظبوطة
+        $this->search = trim((string) $this->search); // هنا برجع القيمة مظبوطة
         $this->resetPage();
     }
 
@@ -26,12 +26,12 @@ class Data extends Component
 
 
 
-    public function render(DashboardInterface $dashboardService)
+    public function render(DashboardInterface $dashboard)
     {
-        $new_products           = $dashboardService->getNewProducts($this->search);
+        $new_products           = $dashboard->getNewProducts($this->search);
         // $getOrderDetailes       = $dashboardService->getNewProducts($this->search);
-        $getProductsWithDetails       = $dashboardService->getProductsWithDetails($this->search);
-        $active_orders_count    = $dashboardService->getActiveOrdersCount();
+        $getProductsWithDetails       = $dashboard->getProductsWithDetails($this->search);
+        $active_orders_count    = $dashboard->getActiveOrdersCount();
 
         return view('livewire.admin.dash-board.data',
         [
